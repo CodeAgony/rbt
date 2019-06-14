@@ -1,22 +1,35 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
-// Fetch users on mount
- componentDidMount() {
-    console.log("Mounted");
+export default class App extends Component {
+
+  constructor() {
+    super()
+  
+    this.state = {
+      users: [],
+    }
+  }
+  
+  componentDidMount(){
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(response => response.json())
-    .then(users => console.log(users));
+    .then(users => this.setState({users: users}));
   }
 
   render() {
     return (
-      <div className="App">
-        <h1 className="lol">Les do dis</h1>
+      <div>
+        {this.state.users.map((user, index) => {
+          return(
+            <div key = {index}>
+              <h1>{user.name}</h1>
+              <p>{user.username}</p>
+              <p>{user.email}</p>
+            </div>
+          )
+        })}
       </div>
-    );
+    )
   }
 }
-
-export default App;
